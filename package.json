@@ -1,0 +1,159 @@
+{
+  "name": "openwebui-vscode-extension",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "author": "hazi",
+  "publisher": "hazi",
+  "version": "0.0.1",
+  "icon": "resources/logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hazicy/openwebui-vscode"
+  },
+  "engines": {
+    "vscode": "^1.107.1"
+  },
+  "categories": [
+    "Notebooks"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languageModelChatProviders": [
+      {
+        "vendor": "open-webui",
+        "displayName": "Open WebUI"
+      }
+    ],
+    "commands": [
+      {
+        "command": "openwebui.refresh",
+        "title": "%command.openwebui.refresh.title%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "openwebui.openSettings",
+        "title": "%command.openwebui.openSettings.title%"
+      },
+      {
+        "command": "openwebui.switchSpace",
+        "title": "%command.openwebui.switchSpace.title%",
+        "icon": "$(database)"
+      },
+      {
+        "command": "openwebui.createObject",
+        "title": "%command.openwebui.createObject.title%",
+        "icon": "$(add)"
+      },
+      {
+        "command": "openwebui.deleteObject",
+        "title": "%command.openwebui.deleteObject.title%"
+      },
+      {
+        "command": "openwebui.archiveObject",
+        "title": "%command.openwebui.archiveObject.title%"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "openwebuiContainer",
+          "title": "%view.openwebuiContainer.title%",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "openwebuiContainer": [
+        {
+          "id": "objectsView",
+          "name": "%view.objectsView.name%",
+          "icon": "$(add)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "openwebui.createObject",
+          "when": "view == objectsView",
+          "group": "navigation"
+        },
+        {
+          "command": "openwebui.refresh",
+          "when": "view == objectsView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "openwebui.deleteObject",
+          "when": "view == objectsView && viewItem == openwebuiObject",
+          "group": "base@1"
+        },
+        {
+          "command": "openwebui.archiveObject",
+          "when": "view == objectsView && viewItem == openwebuiObject",
+          "group": "base@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "%configuration.title%",
+      "properties": {
+        "openwebui.api.baseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:3000",
+          "description": "%configuration.api.baseUrl.description%"
+        },
+        "openwebui.api.token": {
+          "type": "string",
+          "default": "",
+          "description": "%configuration.api.token.description%"
+        },
+        "openwebui.cache.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "%configuration.cache.enabled.description%"
+        },
+        "openwebui.cache.ttl": {
+          "type": "number",
+          "default": 300000,
+          "description": "%configuration.cache.ttl.description%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.107.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.2",
+    "prettier": "3.7.4",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.13.4",
+    "markdownlint": "^0.40.0"
+  }
+}

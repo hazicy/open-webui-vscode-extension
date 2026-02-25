@@ -1,0 +1,20 @@
+{
+  "displayName": "Open WebUI",
+  "description": "用于管理 Anytype 笔记和对象的 VSCode 扩展",
+  "command.openwebui.refresh.title": "刷新",
+  "command.openwebui.openSettings.title": "打开设置",
+  "command.openwebui.switchSpace.title": "切换空间",
+  "command.openwebui.createObject.title": "创建新对象",
+  "command.openwebui.deleteObject.title": "删除对象",
+  "command.openwebui.archiveObject.title": "归档对象",
+  "view.openwebuiContainer.title": "Open WebUI",
+  "view.pinnedView.name": "置顶",
+  "view.objectsView.name": "笔记",
+  "view.recentlyEditedView.name": "最近编辑",
+  "view.trashView.name": "回收站",
+  "configuration.title": "Open WebUI",
+  "configuration.api.baseUrl.description": "Anytype API 的基础 URL",
+  "configuration.api.token.description": "用于身份验证的 API 令牌（Bearer token）",
+  "configuration.cache.enabled.description": "启用 API 响应缓存",
+  "configuration.cache.ttl.description": "缓存生存时间（毫秒，默认：5 分钟）"
+}
