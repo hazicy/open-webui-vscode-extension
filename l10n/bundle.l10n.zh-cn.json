@@ -66,5 +66,7 @@
   "extension.command.updatedAt": "更新于",
   "extension.error.fetchingNotes": "获取笔记失败：{0}",
   "extension.tree.error.requestFailed": "请求出错了，请检查 OpenWebUI 配置",
-  "extension.tree.error.label": "错误：{0}"
+  "extension.tree.error.label": "错误：{0}",
+  "modelChatProvider.error.fetchModelsFailed": "从 OpenWebUI 获取模型失败",
+  "modelChatProvider.error.chatCompletionFailed": "聊天补全失败"
 }

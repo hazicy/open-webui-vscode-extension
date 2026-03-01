@@ -66,5 +66,7 @@
   "extension.command.updatedAt": "Updated at",
   "extension.error.fetchingNotes": "Failed to fetch notes: {0}",
   "extension.tree.error.requestFailed": "Request failed, please check OpenWebUI configuration",
-  "extension.tree.error.label": "Error: {0}"
+  "extension.tree.error.label": "Error: {0}",
+  "modelChatProvider.error.fetchModelsFailed": "Failed to fetch models from OpenWebUI",
+  "modelChatProvider.error.chatCompletionFailed": "Chat completion failed"
 }

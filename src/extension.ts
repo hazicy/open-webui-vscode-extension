@@ -3,7 +3,6 @@ import {
   ApiClientManager,
   StorageManager,
   ConfigManager,
-  NoteSyncManager,
 } from './services';
 import { I18n } from './utils';
 import { registerCommands } from './commands';
@@ -20,7 +19,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Register file system provider
   const noteFSProvider = new NotesFSProvider();
-  const noteManager = new NoteSyncManager(noteFSProvider);
 
   context.subscriptions.push(
     vscode.workspace.registerFileSystemProvider(FS_SCHEMA, noteFSProvider, {
@@ -36,12 +34,22 @@ export function activate(context: vscode.ExtensionContext) {
   // Register commands
   registerCommands(context, notesTreeProvider, noteFSProvider);
 
+  // Register language model chat provider
+  const modelChatProvider = new OpenWebUIModelChatProvider();
+  context.subscriptions.push(
+    vscode.lm.registerLanguageModelChatProvider(
+      'open-webui',
+      modelChatProvider,
+    ),
+  );
+
   // Handle configuration changes
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (ConfigManager.affectsApiConfig(e)) {
         ApiClientManager.recreateClient();
         notesTreeProvider.refresh();
+        modelChatProvider.refresh();
         vscode.window.showInformationMessage(
           I18n.t('extension.command.configuration.updated'),
         );
@@ -49,27 +57,8 @@ export function activate(context: vscode.ExtensionContext) {
     }),
   );
 
-  context.subscriptions.push(
-    vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-      if (document.uri.scheme !== FS_SCHEMA) {
-        return;
-      }
-
-      const note = NoteSyncManager.getMapping(document.uri.fsPath);
-      if (!note) {
-        return;
-      }
-
-      const { noteId, title } = note;
-
-      noteManager.saveNote(noteId, document.getText(), title);
-    }),
-  );
-
-  vscode.lm.registerLanguageModelChatProvider(
-    'open-webui',
-    new OpenWebUIModelChatProvider(),
-  );
+  // Note: Yjs handles automatic synchronization, so manual save listener is no longer needed
+  // When a document is modified, Yjs automatically syncs changes to the server
 }
 
 export function deactivate() {

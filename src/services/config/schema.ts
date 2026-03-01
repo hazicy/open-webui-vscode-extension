@@ -12,6 +12,12 @@ export const DEFAULT_CONFIG = {
     ENABLED: true,
     TTL: 300000, // 5 minutes
   },
+  SYNC: {
+    ENABLED: true,
+    AUTO_SAVE: true,
+    AUTO_SAVE_INTERVAL: 1000, // 1 second
+    CONFLICT_RESOLUTION: 'server' as 'server' | 'local' | 'merge',
+  },
 } as const;
 
 /**
@@ -22,6 +28,10 @@ export const CONFIG_KEYS = {
   TOKEN: 'api.token',
   CACHE_ENABLED: 'cache.enabled',
   CACHE_TTL: 'cache.ttl',
+  SYNC_ENABLED: 'sync.enabled',
+  SYNC_AUTO_SAVE: 'sync.autoSave',
+  SYNC_AUTO_SAVE_INTERVAL: 'sync.autoSaveInterval',
+  SYNC_CONFLICT_RESOLUTION: 'sync.conflictResolution',
 } as const;
 
 /**

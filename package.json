@@ -128,6 +128,31 @@
           "type": "number",
           "default": 300000,
           "description": "%configuration.cache.ttl.description%"
+        },
+        "openwebui.sync.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time synchronization using Yjs"
+        },
+        "openwebui.sync.autoSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically save changes to Open WebUI"
+        },
+        "openwebui.sync.autoSaveInterval": {
+          "type": "number",
+          "default": 1000,
+          "description": "Auto-save interval in milliseconds"
+        },
+        "openwebui.sync.conflictResolution": {
+          "type": "string",
+          "default": "server",
+          "enum": [
+            "server",
+            "local",
+            "merge"
+          ],
+          "description": "Strategy for resolving sync conflicts"
         }
       }
     }
@@ -160,6 +185,10 @@
   },
   "dependencies": {
     "axios": "^1.13.4",
-    "markdownlint": "^0.40.0"
+    "markdownlint": "^0.40.0",
+    "openai": "^6.25.0",
+    "socket.io-client": "^4.8.3",
+    "y-websocket": "^3.0.0",
+    "yjs": "^13.6.29"
   }
 }

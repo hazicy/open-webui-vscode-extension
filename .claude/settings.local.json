@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm add yjs y-websocket)",
+      "Bash(pnpm add socket.io-client)"
+    ]
+  }
+}
