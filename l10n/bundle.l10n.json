@@ -64,5 +64,7 @@
   "extension.command.switchNote": "Switch Note",
   "extension.command.pleaseSelectNote": "Please select a note first",
   "extension.command.updatedAt": "Updated at",
-  "extension.error.fetchingNotes": "Failed to fetch notes: {0}"
+  "extension.error.fetchingNotes": "Failed to fetch notes: {0}",
+  "extension.tree.error.requestFailed": "Request failed, please check OpenWebUI configuration",
+  "extension.tree.error.label": "Error: {0}"
 }

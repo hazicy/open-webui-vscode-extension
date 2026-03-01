@@ -104,14 +104,14 @@ export class NotesTreeProvider implements vscode.TreeDataProvider<TreeItem> {
       const errItems: TreeItem[] = [
         {
           id: '1',
-          label: '请求出错了，请检查 OpenWebUI 配置',
+          label: I18n.t('extension.tree.error.requestFailed'),
           type: 'error',
           collapsibleState: vscode.TreeItemCollapsibleState.None,
         },
 
         {
           id: '2',
-          label: `Error: ${errorMsg}`,
+          label: I18n.t('extension.tree.error.label', errorMsg),
           collapsibleState: vscode.TreeItemCollapsibleState.None,
         },
       ];

@@ -1,6 +1,6 @@
 {
   "displayName": "Open WebUI",
-  "description": "A VSCode extension for managing Anytype notes and objects",
+  "description": "Seamlessly integrate Open WebUI with VSCode",
   "command.openwebui.refresh.title": "Refresh",
   "command.openwebui.openSettings.title": "Open Settings",
   "command.openwebui.switchSpace.title": "Switch Space",
@@ -13,7 +13,7 @@
   "view.recentlyEditedView.name": "Recently Edited",
   "view.trashView.name": "Trash",
   "configuration.title": "Open WebUI",
-  "configuration.api.baseUrl.description": "The base URL of the Anytype API",
+  "configuration.api.baseUrl.description": "The base URL of the Open WebUI API",
   "configuration.api.token.description": "API token for authentication (Bearer token)",
   "configuration.cache.enabled.description": "Enable caching of API responses",
   "configuration.cache.ttl.description": "Cache time-to-live in milliseconds (default: 5 minutes)"

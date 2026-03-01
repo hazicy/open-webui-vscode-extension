@@ -64,5 +64,7 @@
   "extension.command.switchNote": "切换笔记",
   "extension.command.pleaseSelectNote": "请先选择一个笔记",
   "extension.command.updatedAt": "更新于",
-  "extension.error.fetchingNotes": "获取笔记失败：{0}"
+  "extension.error.fetchingNotes": "获取笔记失败：{0}",
+  "extension.tree.error.requestFailed": "请求出错了，请检查 OpenWebUI 配置",
+  "extension.tree.error.label": "错误：{0}"
 }
