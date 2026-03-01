@@ -24,9 +24,9 @@ export class ConfigManager {
    * Validate if configuration is complete
    */
   static validateConfig(): { valid: boolean; error?: string } {
-    const config = this.getApiConfig();
+    const { baseUrl, apiToken } = this.getApiConfig();
 
-    if (!config.apiToken) {
+    if (!baseUrl || !apiToken) {
       return {
         valid: false,
         error: 'API token is missing. Please configure it in settings.',

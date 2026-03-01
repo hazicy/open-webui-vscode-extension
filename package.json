@@ -74,6 +74,13 @@
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "objectsView",
+        "contents": "请先配置 OpenWebUI 地址及 API 密钥。\n[配置 OpenWebUI](command:openwebui.openSettings)",
+        "when": "openwebuiHasError == true"
+      }
+    ],
     "menus": {
       "view/title": [
         {
@@ -105,7 +112,6 @@
       "properties": {
         "openwebui.api.baseUrl": {
           "type": "string",
-          "default": "http://127.0.0.1:3000",
           "description": "%configuration.api.baseUrl.description%"
         },
         "openwebui.api.token": {

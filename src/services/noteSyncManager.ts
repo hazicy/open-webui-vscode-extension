@@ -25,48 +25,28 @@ export class NoteSyncManager {
    * Open a note in VSCode editor
    */
   async openNote(noteId: string, title: string): Promise<vscode.Uri> {
-    return await vscode.window.withProgress(
-      {
-        // 关键配置：ViewContainer 表示显示在侧边栏视图容器的顶部
-        location: vscode.ProgressLocation.Notification,
-        // title: 进度条旁边显示的文字
-        title: `正在打开: ${title}`,
-        cancellable: false,
-      },
-      async (progress) => {
-        // --- 你的原始逻辑开始 ---
+    const response = await this.client.notes.get(noteId);
+    if (!response) {
+      throw new Error(`Note not found: ${noteId}`);
+    }
 
-        // 你可以在这里更新状态（可选）
-        progress.report({ message: '正在获取笔记数据...' });
+    const note = (response as any).data.content || response;
+    if (!note) {
+      throw new Error(`Invalid note response for ID: ${noteId}`);
+    }
 
-        const response = await this.client.notes.get(noteId);
-        if (!response) {
-          throw new Error(`Note not found: ${noteId}`);
-        }
+    const filename = `${title}.md`;
+    const uri = vscode.Uri.parse(`openwebui:///${filename}`);
+    const content = note.md || '';
 
-        const note = (response as any).data.content || response;
-        if (!note) {
-          throw new Error(`Invalid note response for ID: ${noteId}`);
-        }
+    await vscode.workspace.fs.writeFile(uri, Buffer.from(content));
 
-        progress.report({ message: '正在写入文件...' });
+    NoteSyncManager.pathMapping.set(uri.fsPath, {
+      noteId: noteId,
+      title: title,
+    });
 
-        const filename = `${title}.md`;
-        const uri = vscode.Uri.parse(`openwebui:///${filename}`);
-        const content = note.md || '';
-
-        await vscode.workspace.fs.writeFile(uri, Buffer.from(content));
-
-        NoteSyncManager.pathMapping.set(uri.fsPath, {
-          noteId: noteId,
-          title: title,
-        });
-
-        // --- 你的原始逻辑结束 ---
-
-        return uri;
-      },
-    );
+    return uri;
   }
 
   /**

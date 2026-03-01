@@ -2,16 +2,20 @@ import * as vscode from 'vscode';
 import { getApiClient, ConfigManager, NoteManager } from '../services';
 import { I18n } from '../utils';
 import type { Note } from '../lib/openwebui/types';
+import { AxiosError } from 'axios';
 
 type Category = 'category';
 type NoteItem = 'note';
+type ErrorType = 'error';
 
 export interface TreeItem extends vscode.TreeItem {
   count?: number;
-  type?: Category | NoteItem;
+  type?: Category | NoteItem | ErrorType;
   children?: TreeItem[];
   noteData?: Note;
 }
+
+const CONTEXT_HAS_ERROR = 'openwebuiHasError'; // 定义 Key
 
 export class NotesTreeProvider implements vscode.TreeDataProvider<TreeItem> {
   private _onDidChangeTreeData = new vscode.EventEmitter<
@@ -56,6 +60,12 @@ export class NotesTreeProvider implements vscode.TreeDataProvider<TreeItem> {
       }
     }
 
+    if (element.type === 'error') {
+      treeItem.iconPath = new vscode.ThemeIcon('error');
+      treeItem.contextValue = 'openwebuiError';
+      treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
+    }
+
     return treeItem;
   }
 
@@ -72,7 +82,7 @@ export class NotesTreeProvider implements vscode.TreeDataProvider<TreeItem> {
   private async getAllNotes(): Promise<TreeItem[]> {
     const validation = ConfigManager.validateConfig();
     if (!validation.valid) {
-      vscode.window.showWarningMessage(validation.error!);
+      await this.setContext(CONTEXT_HAS_ERROR, true);
       return [];
     }
 
@@ -89,10 +99,26 @@ export class NotesTreeProvider implements vscode.TreeDataProvider<TreeItem> {
 
       return items;
     } catch (error) {
-      vscode.window.showWarningMessage(
-        I18n.t('extension.error.fetchingNotes', String(error)),
-      );
-      return [];
+      const errorMsg = error instanceof Error ? error.message : String(error);
+
+      const errItems: TreeItem[] = [
+        {
+          id: '1',
+          label: '请求出错了，请检查 OpenWebUI 配置',
+          type: 'error',
+          collapsibleState: vscode.TreeItemCollapsibleState.None,
+        },
+
+        {
+          id: '2',
+          label: `Error: ${errorMsg}`,
+          collapsibleState: vscode.TreeItemCollapsibleState.None,
+        },
+      ];
+      return errItems;
     }
+  }
+  private async setContext(key: string, value: any) {
+    await vscode.commands.executeCommand('setContext', key, value);
   }
 }
